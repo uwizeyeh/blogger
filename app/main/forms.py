@@ -16,3 +16,15 @@ class UpdateProfile(FlaskForm):
 #     password = PasswordField('Password',validators =[Required()])
 #     remember = BooleanField('Remember me')
 #     submit = SubmitField('Sign In')
+
+class PitchForm(FlaskForm):
+    pitch = TextAreaField('Your Pitch', validators=[Required()])
+    # category_id = SelectField('Select Category', choices=[('1', 'Interview'), ('2', 'Pick Up Lines'), ('3', 'Promotion'),('4','Product')])
+    # content = TextAreaField('YOUR PITCH')
+    submit = SubmitField('Create')
+
+# class UpvoteForm(FlaskForm):
+#     '''
+#     Class to create a wtf form for upvoting a pitch
+#     '''
+#     submit = SubmitField('Upvote')

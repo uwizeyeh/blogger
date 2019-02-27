@@ -41,3 +41,15 @@ def update_profile(uname):
         return redirect(url_for('.profile',uname=user.username))
 
     return render_template('profile/update.html',form =form)
+
+@main.route('/pitch/new' ,methods=['GET','POST'])
+@login_required
+def create_pitches():
+    form = PitchForm()
+    if form.validate_on_submit():
+        pitch=form.pitch.data
+
+        return redirect(url_for('main.index'))
+
+    return render_template('pitch.html',form =form)     
+
