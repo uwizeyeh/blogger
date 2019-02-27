@@ -48,7 +48,6 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
     comment = db.Column(db.String(255))
-    users = db.relationship('User',backref = 'comments',lazy="dynamic")
     users_id = db.Column(db.Integer,db.ForeignKey('users.id')) 
     pitche_id = db.Column(db.Integer,db.ForeignKey('pitche.id')) 
     def __repr__(self):
