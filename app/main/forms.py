@@ -18,13 +18,11 @@ class UpdateProfile(FlaskForm):
 #     submit = SubmitField('Sign In')
 
 class PitchForm(FlaskForm):
-    pitch = TextAreaField('Your Pitch', validators=[Required()])
-    category_id = SelectField('Select Category'
-    content = TextAreaField('YOUR PITCH')
+    # pitch = TextAreaField('Your Pitch', validators=[Required()])
+    category = SelectField('Category', choices=[('Interview', 'Interview'), ('Academic', 'Academic'), ('Music', 'Music'),('Technology','Technology'),('Health','Health')],validators=[Required()])
+    content = TextAreaField('YOUR PITCH',validators=[Required()])
     submit = SubmitField('Create')
 
-# class UpvoteForm(FlaskForm):
-#     '''
-#     Class to create a wtf form for upvoting a pitch
-#     '''
-#     submit = SubmitField('Upvote')
+class CommentForm(FlaskForm):
+        Comment = TextAreaField('Comment', validators=[Required()])
+    submit = SubmitField('Post Comment')

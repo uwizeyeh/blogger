@@ -8,5 +8,6 @@
 <div class="jumbotron text-center">
     <h1>Welcome To Pitches Website</h1>
         <a href={{ url_for('main.create_pitches') }}><button>create Pitch</button></a>
-</div>        
+</div>  
+{%for kigali in all_pitches %}      
 {% endblock%}
