@@ -45,7 +45,7 @@ class Pitche(db.Model):
         db.session.add(self)
         db.session.commit()
     @classmethod
-    def get_pitches(cls, id)
+    def get_pitches(cls, id):
         pitche = Pitche.query.all()
         return pitche    
 
@@ -62,7 +62,7 @@ class Comment(db.Model):
     def __repr__(self):
         return f'User {self.comment}'
 
- @classmethod
+@classmethod
 def get_pitches(cls): 
-    pitches = Pitche.query.filter_by.all() 
+    pitches = Pitche.query.filter_by().all() 
     return pitches     
