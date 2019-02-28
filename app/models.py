@@ -17,6 +17,7 @@ class User(UserMixin, db.Model):
     pitche = db.relationship('Pitche',backref = 'user',lazy="dynamic")
     comments = db.relationship('Comment',backref = 'user',lazy="dynamic")
     pass_secure = db.Column(db.String(255))
+
     @property
     def password(self):
         raise AttributeError('You cannot read the password attribute')
@@ -34,7 +35,6 @@ class User(UserMixin, db.Model):
 
 class Pitche(db.Model):
     __tablename__ = 'pitche'
-
     id = db.Column(db.Integer,primary_key = True)
     content =  db.Column(db.String(255))
     category =  db.Column(db.String(255))  
@@ -47,7 +47,12 @@ class Pitche(db.Model):
     @classmethod
     def get_pitches(cls, id):
         pitche = Pitche.query.all()
-        return pitche    
+        return pitche 
+
+    @classmethod
+    def category(cls, cat):
+        category= Pitche.filter_by(category=cat).order_by('-id').all()
+        return category       
 
  
 class Comment(db.Model):
@@ -66,17 +71,13 @@ class Comment(db.Model):
         db.session.commit()
 
     @classmethod
-    def clear_comments(cls):
-        Comment.all_comments.clear()
-
-    @classmethod
     def get_comments(cls,id):
         comments = Comment.query.filter_by(pitch_id=id).all()
 
         return comments
 
-    # def __repr__(self):
-    #     return f'User {self.comment}'
+    def __repr__(self):
+        return f'User {self.comment}'
 
 @classmethod
 def get_pitches(cls): 

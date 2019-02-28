@@ -7,3 +7,6 @@ body{
 .jumbotron{
   color:darkolivegreen;
 }
+p{
+  text-align: center;
+}

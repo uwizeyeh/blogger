@@ -66,7 +66,7 @@ def add_comment(id):
     # vote_form = UpvoteForm()
     if form.validate_on_submit():
         comment =form.Comment.data
-        new_comment = Comment(comment=comment,pitches_id=id,user=current_user)
+        new_comment = Comment(comment=comment,pitche_id=id, user=current_user)
 
         db.session.add(new_comment)
         db.session.commit()
