@@ -19,8 +19,8 @@ class UpdateProfile(FlaskForm):
 
 class PitchForm(FlaskForm):
     pitch = TextAreaField('Your Pitch', validators=[Required()])
-    # category_id = SelectField('Select Category', choices=[('1', 'Interview'), ('2', 'Pick Up Lines'), ('3', 'Promotion'),('4','Product')])
-    # content = TextAreaField('YOUR PITCH')
+    category_id = SelectField('Select Category'
+    content = TextAreaField('YOUR PITCH')
     submit = SubmitField('Create')
 
 # class UpvoteForm(FlaskForm):
