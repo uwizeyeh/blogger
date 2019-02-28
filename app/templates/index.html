@@ -10,6 +10,9 @@
         <a href={{ url_for('main.create_pitches') }}><button>create Pitch</button></a>
 </div>  
 {%for kigali in all_pitches %}
-{{kigali.content}} 
+
+<tr><p>{{kigali.content}} </p></tr>
+<a href="/comments/new/{{kigali.id}}"><button>comment</button></a>
+
 {% endfor %}     
 {% endblock%}

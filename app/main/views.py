@@ -1,6 +1,6 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from .forms import ReviewForm,UpdateProfile,PitchForm
+from .forms import ReviewForm,UpdateProfile,PitchForm,CommentForm
 from ..models import User,Pitche,Comment
 from flask_login import login_required,current_user
 from .. import db
@@ -59,7 +59,7 @@ def create_pitches():
 
     return render_template('pitch.html',form =form)  
 
-@main.route('/comments/new<int:id>',methods = ['GET','POST'])
+@main.route('/comments/new/<int:id>',methods = ['GET','POST'])
 @login_required
 def add_comment(id):
     form = CommentForm()
@@ -72,8 +72,8 @@ def add_comment(id):
         db.session.commit()
 
         return redirect(url_for('main.index'))
-        comment=Comment.query.filter_by(pitches_id=id).all()
-    #title = f'{pitch_result.id} review'
-    return render_template('new_comment.html',comment=comment,form= form)
+    comment=Comment.query.filter_by(pitche_id=id).all()
+   
+    return render_template('comment.html',comment=comment,form= form)
    
 
