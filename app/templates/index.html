@@ -5,14 +5,24 @@
 {% endblock %}
 
 {% block content %}
-<div class="jumbotron text-center">
-    <h1>Welcome To Pitches Website</h1>
-        <a href={{ url_for('main.create_pitches') }}><button>create Pitch</button></a>
-</div>  
-{%for kigali in all_pitches %}
 
-<tr><p>{{kigali.content}} </p></tr>
-<p><a href="/comments/new/{{kigali.id}}"><button>comment</button></a></p>
-
-{% endfor %}     
+<div class="container">
+    
+        <h1 id="heading">Welcome to Blogs</h1>
+        <div class='well'>
+        <a href={{ url_for('main.create_blogs') }}>Create a Blogs</a>
+        </div>
+    {% for word in blog %}
+    <div class="jumbotron text-center">
+    <p>{{word.user.username}}</p>
+    <h3>{{word.title}}</h3>
+    <p>{{word.blog}}</p>
+  
+    <div class="well-sm">
+    <a href="/comment/new/{{word.id}}"><button id="but">comments</button></a><br>
+    </div>
+</div>
+</div> 
+{% endfor %}
+   
 {% endblock%}

@@ -1,9 +1,10 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from .forms import ReviewForm,UpdateProfile,PitchForm,CommentForm
-from ..models import User,Pitche,Comment
+from .forms import ReviewForm,UpdateProfile,BlogForm,CommentForm,SubscribeForm
+from ..models import User,Comment,Blog,Subscribe,Quote
 from flask_login import login_required,current_user
 from .. import db
+from ..request import get_quote
 
 
 @main.route('/')
@@ -12,9 +13,10 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-    all_pitches =Pitche.query.all()
-    title = 'Home'
-    return render_template('index.html', title = title,all_pitches=all_pitches)
+    title = 'Blog about it !'
+    quote=get_quote()
+    blog = Blog.query.all()
+    return render_template('index.html', title = title,blog = blog)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -44,36 +46,57 @@ def update_profile(uname):
 
     return render_template('profile/update.html',form =form)
 
-@main.route('/pitch/new' ,methods=['GET','POST'])
+@main.route('/blog/new', methods=['GET','POST'])
 @login_required
-def create_pitches():
-    form = PitchForm()
+def create_blogs():
+    form = BlogForm()
+
     if form.validate_on_submit():
-        category=form.category.data
-        content=form.content.data
-        new_pitch = Pitche(content=content,category=category, user=current_user)
-        new_pitch.save_pitch()
-        # pitch=form.pitch.data
+        title=form.title.data
+        blog=form.blog.data
 
-        return redirect(url_for('main.index'))
+        new_blog=Blog(blog = blog,title = title,user= current_user)
 
-    return render_template('pitch.html',form =form)  
-
-@main.route('/comments/new/<int:id>',methods = ['GET','POST'])
-@login_required
-def add_comment(id):
-    form = CommentForm()
-    # vote_form = UpvoteForm()
-    if form.validate_on_submit():
-        comment =form.Comment.data
-        new_comment = Comment(comment=comment,pitche_id=id, user=current_user)
-
-        db.session.add(new_comment)
+        db.session.add(new_blog)
         db.session.commit()
 
         return redirect(url_for('main.index'))
-    comment=Comment.query.filter_by(pitche_id=id).all()
-   
-    return render_template('comment.html',comment=comment,form= form)
-   
 
+    return render_template('blog.html',form = form,user= current_user)    
+
+@main.route('/comment/new/<int:id>', methods=['GET','POST'])
+def create_comments(id):
+
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        usernames=form.usernames.data
+        comment=form.comment.data
+
+        new_comment= Comment(comment= comment,usernames = usernames,blog_id = id,user= current_user)
+        db.session.add(new_comment)
+        db.session.commit()
+
+    comment = Comment.query.filter_by(blog_id=id).all()
+        
+
+    return render_template('comment.html',comment = comment, form = form)        
+
+@main.route('/subs/new/', methods=['GET','POST'])    
+def Subscribe():
+    form=SubscribeForm
+
+    if form.validate_on_submit():
+        name=form.name.data
+        email=form.email.data
+    
+        new_subscribe = Subscribe( name = name, email = email)
+        db.session.add(new_subscribe)
+        db.session.commit()
+
+        flash('subscription complete')
+        return redirect(url_for('main.index'))
+
+
+
+    return render_template('subscribe.html',form = form,user= current_user)     

@@ -1,30 +1,60 @@
-# Pitch
+## Project Name
+  The Blogs
 
-# Author
+## Author 
 Uwizeyimana Hulde
 ## Description
-It show the pitches other people have posted and  vote on the pitch they liked and give it a downvote or upvote.
+This is an application that allows a writer to publish blogs and users can view and comment on the blogs posted.
 
-A user can select any of the categories from the navbar to view the pitches on these categories
+## contact
+* email :uwizeyimanahulde1@gmail.com
+* phone: 0782356570
 
-Other users can give feedback to the pitch posts by commenting, liking or disliking the pitch.
+## BDD
+The program lets a user register
 
-## Set-up and Installation
-Prerequiites
-- Python 3.6
-- Ubuntu software
-## Clone the Repo
-Run the following command on the terminal:
+Example input: Submit registration form
+Example output: User receives a welcome email
+The program lets the user login
+
+Example input: Submit login form
+Example output: displays user name on right of navbar
+The program lets a user comment on a post
+
+Example input: Submit comment form
+Example output: Comment is added to post
+The program lets the writer login
+
+Example input: Submit login form
+Example output: displays user name on right of navbar
+The program lets the writer submit a post
+
+Example input: Submit new post form
+Example output: Post is added
+The program lets the writer delete a post
+
+Example input: Click on delete button
+Example output: Post is deleted
+Live Site
+## Prerequisites
+Python
+Pip
+Flask
+Postgres
+## Setup/Installation Requirements
+https://github.com/Vynnel/Blogger.git
+download the zip file
+unzip it on your documents folder
+open the folder on your preferred text/code editor
+code away
+Known Bugs
+None
 
 ## Technologies used
-- Python 3.6
-- HTML
-- Bootstrap 4
-- Heroku
-- Postgresql
-## contact details
-* Contact :0782356570
-* Email:uwizeyimanahulde1@gmail.com
+Python3.7
+Flask
+Postgres
+pip
 
-License
-Copyright (c) 2019
+## License
+MIT Copyright (c) 2019     

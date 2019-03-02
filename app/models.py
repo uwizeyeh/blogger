@@ -14,9 +14,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(255),unique = True,index = True)
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
-    pitche = db.relationship('Pitche',backref = 'user',lazy="dynamic")
-    comments = db.relationship('Comment',backref = 'user',lazy="dynamic")
     pass_secure = db.Column(db.String(255))
+    blog = db.relationship('Blog',backref = 'user',lazy="dynamic")
+    comment = db.relationship('Comment',backref = 'user',lazy="dynamic")
 
     @property
     def password(self):
@@ -33,53 +33,39 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'User {self.username}'
 
-class Pitche(db.Model):
-    __tablename__ = 'pitche'
+class Blog(db.Model):
+    __tablename__ = 'blogs'
+
     id = db.Column(db.Integer,primary_key = True)
-    content =  db.Column(db.String(255))
-    category =  db.Column(db.String(255))  
-    users_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-    comments = db.relationship('Comment',backref = 'pitche',lazy="dynamic")
+    title = db.Column(db.String(255))
+    blog = db.Column(db.String(255))
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    comment = db.relationship("Comment", backref="blogs", lazy = "dynamic")
+    
 
-    def save_pitch(self):
-        db.session.add(self)
-        db.session.commit()
-    @classmethod
-    def get_pitches(cls, id):
-        pitche = Pitche.query.all()
-        return pitche 
-
-    @classmethod
-    def category(cls, cat):
-        category= Pitche.filter_by(category=cat).order_by('-id').all()
-        return category       
-
- 
 class Comment(db.Model):
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer,primary_key = True)
+    usernames = db.Column(db.String(255),index = True)
     comment = db.Column(db.String(255))
-    users_id = db.Column(db.Integer,db.ForeignKey('users.id')) 
-    pitche_id = db.Column(db.Integer,db.ForeignKey('pitche.id')) 
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    blog_id = db.Column(db.Integer, db.ForeignKey("blogs.id"))
 
-    def save_comment(self):
-        '''
-        Function that saves comments
-        '''
-        db.session.add(self)
-        db.session.commit()
+class Subscribe(db.Model):
+    __tablename__ = 'subscribes'
 
-    @classmethod
-    def get_comments(cls,id):
-        comments = Comment.query.filter_by(pitch_id=id).all()
+    id = db.Column(db.Integer,primary_key = True)
+    name = db.Column(db.String(255),index = True)
+    email = db.Column(db.String(255),unique = True,index = True)
 
-        return comments
+class Quote():
+    '''
+    class that creates the quote instance
+    '''
 
-    def __repr__(self):
-        return f'User {self.comment}'
-
-@classmethod
-def get_pitches(cls): 
-    pitches = Pitche.query.filter_by().all() 
-    return pitches     
+    def __init__(self,id,author,quote,permalink):
+        id =  id
+        author = author
+        quote = quote
+        permalink = permalink    
