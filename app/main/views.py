@@ -75,7 +75,7 @@ def update_post(id):
    if blog is None:
         abort(404)
 
-   form=UpdateBlogForm()
+   form = UpdateBlogForm()
    if form.validate_on_submit():
          post.title=form.title.data
          blog.title=form.title.data
