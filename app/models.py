@@ -42,6 +42,17 @@ class Blog(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     comment = db.relationship("Comment", backref="blogs", lazy = "dynamic")
     
+    def save_all_blog(self):
+        db.session.add(self)
+        db.session.commit()
+    @classmethod
+    def get_blog(cls, id):
+        blogs = Blog.order_by('-id').all()
+        return blogs
+    @classmethod
+    def get_single_blog(cls,id):
+        blog_post = Blog.query.filter_by(id=id).first()
+        return blog_post
 
 class Comment(db.Model):
     __tablename__ = 'comments'
@@ -52,6 +63,16 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     blog_id = db.Column(db.Integer, db.ForeignKey("blogs.id"))
 
+    @classmethod
+    def get_blog_comments(cls,id):
+        comments = Comment.query.filter_by(blog_id=id).order_by('-id').all()
+        return comments
+    
+    @classmethod
+    def get_single_comment(cls,id):
+        comment = Comment.query.filter_by(id=id).first()
+        return comment
+
 class Subscribe(db.Model):
     __tablename__ = 'subscribes'
 
@@ -59,13 +80,18 @@ class Subscribe(db.Model):
     name = db.Column(db.String(255),index = True)
     email = db.Column(db.String(255),unique = True,index = True)
 
+    @classmethod
+    def send_single_subscription(cls,id):
+        Subscribe = Subscribe.query.filter_by(id=id).first()
+        return Subscription
+
 class Quote():
     '''
     class that creates the quote instance
     '''
 
-    def __init__(self,id,author,quote,permalink):
-        id =  id
-        author = author
-        quote = quote
-        permalink = permalink    
+    def __init__(self,id,author,quote):
+        self.id =  id
+        self.author = author
+        self.quote = quote
+          

@@ -21,7 +21,7 @@ def get_quote():
             id=get_quote_response.get('id')
             author=get_quote_response.get('author')
             quote=get_quote_response.get('quote')
-            permalink=get_quote_response.get('permalink')
+
 
         
     return quote_objects    

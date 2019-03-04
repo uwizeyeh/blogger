@@ -20,9 +20,14 @@
   
     <div class="well-sm">
     <a href="/comment/new/{{word.id}}"><button id="but">comments</button></a><br>
+    <button><a href="{{url_for('main.update_post',id=word.id)}}">Update</button></a><br>
+    <button> <a href="{{url_for('main.delete_blog',id=word.id)}}">Delete Blog</a></button>
+
+
     </div>
-</div>
+  
+
 </div> 
 {% endfor %}
-   
+</div>
 {% endblock%}

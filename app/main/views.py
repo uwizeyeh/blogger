@@ -5,6 +5,7 @@ from ..models import User,Comment,Blog,Subscribe,Quote
 from flask_login import login_required,current_user
 from .. import db
 from ..request import get_quote
+from ..email import mail_message
 
 
 @main.route('/')
@@ -16,7 +17,7 @@ def index():
     title = 'Blog about it !'
     quote=get_quote()
     blog = Blog.query.all()
-    return render_template('index.html', title = title,blog = blog)
+    return render_template('index.html', quote=quote,title = title,blog = blog)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -50,19 +51,43 @@ def update_profile(uname):
 @login_required
 def create_blogs():
     form = BlogForm()
-
+    subscribes=Subscribe.query.all()
     if form.validate_on_submit():
         title=form.title.data
         blog=form.blog.data
-
+       
         new_blog=Blog(blog = blog,title = title,user= current_user)
 
         db.session.add(new_blog)
         db.session.commit()
+        for Subscribe in subscribes:
+            mail_message("hey!!There is new post","email/notification",email.email.data)
 
         return redirect(url_for('main.index'))
 
-    return render_template('blog.html',form = form,user= current_user)    
+    return render_template('blog.html',form = form,user= current_user) 
+
+
+@main.route('/edit/blog/<int:id>',methods= ['GET','POST'])
+@login_required
+def update_post(id):
+   blog=Blog.query.filter_by(id=id).first()
+   if blog is None:
+        abort(404)
+
+   form=UpdateBlogForm()
+   if form.validate_on_submit():
+         post.title=form.title.data
+         blog.title=form.title.data
+         blog.blog_post=form.blog_post.data
+
+         db.session.add(blog)
+         db.session.commit()
+
+         return redirect(url_for('main.index'))
+   return render_template('update_blog.html',form=form)   
+
+
 
 @main.route('/comment/new/<int:id>', methods=['GET','POST'])
 def create_comments(id):
@@ -80,11 +105,13 @@ def create_comments(id):
     comment = Comment.query.filter_by(blog_id=id).all()
         
 
-    return render_template('comment.html',comment = comment, form = form)        
+    return render_template('comment.html',comment = comment, form = form) 
 
+
+        
 @main.route('/subs/new/', methods=['GET','POST'])    
 def Subscribe():
-    form=SubscribeForm
+    form=SubscribeForm()
 
     if form.validate_on_submit():
         name=form.name.data
@@ -93,6 +120,7 @@ def Subscribe():
         new_subscribe = Subscribe( name = name, email = email)
         db.session.add(new_subscribe)
         db.session.commit()
+        mail_message("Thank youn for subscribing"," email/subscrib",new_subscribe .email)
 
         flash('subscription complete')
         return redirect(url_for('main.index'))
@@ -100,3 +128,53 @@ def Subscribe():
 
 
     return render_template('subscribe.html',form = form,user= current_user)     
+
+# @main.route('/delete/new/<int:id>', methods=['GET','POST'])
+# @login_required
+# def delete_comment(id):
+#     comment = Comment.get_single_comment(id)
+
+#     db.session.delete(comment)
+#     db.session.commit()
+
+    
+
+#     return redirect(url_for('main.add_comments',id=id))
+
+
+# @main.route('/index/<int:id>/delete_blog')
+# @login_required
+# def delete_blog(id):
+#     blog = Blog.get_single_blog(id)
+
+#     db.session.delete(blog)
+#     db.session.commit()
+
+#     flash('Blog has been deleted') 
+
+#     return redirect(url_for('main.index'))
+
+@main.route('/blog/<int:id>/<int:id_comment>/delete_comment')
+@login_required
+def delete_comment(id,id_comment):
+    comment = Comment.get_single_comment(id,id_comment)
+
+    db.session.delete(comment)
+    db.session.commit()
+
+    flash('Comment has been deleted')
+
+    return redirect(url_for('main.add_comments',id=id))
+
+
+@main.route('/index/<int:id>/delete_blog')
+@login_required
+def delete_blog(id):
+    blog = Blog.get_single_blog(id)
+
+    db.session.delete(blog)
+    db.session.commit()
+
+    # flash('Blog has been deleted') 
+
+    return redirect(url_for('main.index'))

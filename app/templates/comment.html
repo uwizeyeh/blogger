@@ -16,8 +16,14 @@
         <div class="well-lg">
             {% for word in comment %}
             <h4>{{word.usernames}}</h4>
-            <p>--{{word.comment}}</p>
-            {% endfor %}
+            <h5>--{{word.comment}}</h5>
+
+            
+            <a href="/delete/new/{{word.id}}"><button >Delete</button></a>
+        
+           
+
+              {% endfor %}
         </div>
 </div>
 {% endblock%}
