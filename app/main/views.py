@@ -129,30 +129,7 @@ def Subscribe():
 
     return render_template('subscribe.html',form = form,user= current_user)     
 
-# @main.route('/delete/new/<int:id>', methods=['GET','POST'])
-# @login_required
-# def delete_comment(id):
-#     comment = Comment.get_single_comment(id)
 
-#     db.session.delete(comment)
-#     db.session.commit()
-
-    
-
-#     return redirect(url_for('main.add_comments',id=id))
-
-
-# @main.route('/index/<int:id>/delete_blog')
-# @login_required
-# def delete_blog(id):
-#     blog = Blog.get_single_blog(id)
-
-#     db.session.delete(blog)
-#     db.session.commit()
-
-#     flash('Blog has been deleted') 
-
-#     return redirect(url_for('main.index'))
 
 @main.route('/blog/<int:id>/<int:id_comment>/delete_comment')
 @login_required
