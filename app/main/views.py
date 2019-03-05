@@ -5,7 +5,7 @@ from ..models import User,Comment,Blog,Subscribe,Quote
 from flask_login import login_required,current_user
 from .. import db
 from ..request import get_quote
-from ..email import mail_message
+# from ..email import mail_message
 
 
 @main.route('/')
@@ -51,17 +51,18 @@ def update_profile(uname):
 @login_required
 def create_blogs():
     form = BlogForm()
-    subscribes=Subscribe.query.all()
+  
     if form.validate_on_submit():
         title=form.title.data
         blog=form.blog.data
+        # subscribes=Subscribe.query.all()
        
         new_blog=Blog(blog = blog,title = title,user= current_user)
 
         db.session.add(new_blog)
         db.session.commit()
-        for Subscribe in subscribes:
-            mail_message("hey!!There is new post","email/notification",email.email.data)
+        # for Subscribe in subscribes:
+        #     mail_message("hey!!There is new post","email/notification",email.email.data)
 
         return redirect(url_for('main.index'))
 
@@ -120,7 +121,7 @@ def Subscribe():
         new_subscribe = Subscribe( name = name, email = email)
         db.session.add(new_subscribe)
         db.session.commit()
-        mail_message("Thank youn for subscribing"," email/subscrib",new_subscribe .email)
+        # mail_message("Thank youn for subscribing"," email/subscrib",new_subscribe .email)
 
         flash('subscription complete')
         return redirect(url_for('main.index'))
