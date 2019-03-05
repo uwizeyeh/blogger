@@ -94,4 +94,3 @@ class Quote():
         self.id =  id
         self.author = author
         self.quote = quote
-          

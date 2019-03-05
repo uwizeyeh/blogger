@@ -1,6 +1,6 @@
 from flask import render_template,request,redirect,url_for,abort
 from . import main
-from .forms import ReviewForm,UpdateProfile,BlogForm,CommentForm,SubscribeForm
+from .forms import ReviewForm,UpdateProfile,BlogForm,CommentForm,SubscribeForm,UpdateBlogForm
 from ..models import User,Comment,Blog,Subscribe,Quote
 from flask_login import login_required,current_user
 from .. import db
@@ -78,15 +78,15 @@ def update_post(id):
 
    form = UpdateBlogForm()
    if form.validate_on_submit():
-         post.title=form.title.data
-         blog.title=form.title.data
-         blog.blog_post=form.blog_post.data
+        title=form.title.data
+        blog=form.blog.data
+        
 
-         db.session.add(blog)
-         db.session.commit()
+        # db.session.add(blog)
+        # db.session.commit()
 
-         return redirect(url_for('main.index'))
-   return render_template('update_blog.html',form=form)   
+        return redirect(url_for('main.index'))
+   return render_template('update.html',form=form)   
 
 
 
