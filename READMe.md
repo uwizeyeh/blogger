@@ -51,10 +51,12 @@ Known Bugs
 None
 
 ## Technologies used
-Python3.7
-Flask
-Postgres
-pip
+* Python3.7
+* Flask
+* Postgres
+* pip
+## Link of deployment but is not working
+*  https://bloggggg1.herokuapp.com/
 
 ## License
 MIT Copyright (c) 2019     
